@@ -20,9 +20,10 @@ $('#title').on('change', function() {
 
 // make color menu show on change with correct options
 $('#design').on('change', function() {
-    const shirtRegEx = new RegExp('P');
+    const shirtRegEx = /Puns/;
     let optNotSelected = '';
     let optSelected = '';
+
     $('#design option').eq(0).hide();
     $('#colors-js-puns p').hide();
     $('#color').show();
@@ -57,6 +58,8 @@ $('#design').on('change', function() {
     }
 });
 
+
+// register checkbox section
 $('.activities input').on('click', function() {
     if ($(this).prop('checked')) {
         console.log('check');
