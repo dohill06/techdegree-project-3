@@ -18,7 +18,7 @@ $('#title').on('change', function() {
 });
 
 
-
+// make color menu show on change with correct options
 $('#design').on('change', function() {
     $('#design option').eq(0).hide();
     $('#colors-js-puns p').hide();
@@ -37,5 +37,4 @@ $('#design').on('change', function() {
         $('#color option').eq(3).attr('selected', true);
         $('#color option').eq(0).attr('selected', false);
     }
-    
 })
