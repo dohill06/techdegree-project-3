@@ -5,7 +5,7 @@ $('#other-title').hide();
 // hide t-shirt 'Color' menu on load-in and add instructions
 $('#color').hide();
 $('#colors-js-puns label').append('<p>Please select a T-shirt theme.</p>');
-$('#colors-js-puns p').css('margin-top', '11px');
+$('#colors-js-puns p').css('margin-top', '9px');
 
 // show other-title job role input when other is selected
 $('#title').on('change', function() {
