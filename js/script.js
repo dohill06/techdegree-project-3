@@ -16,17 +16,23 @@ $('#title').on('change', function() {
         $('#other-title').hide(); 
     }
 });
-// variable for regex check of t-shirts
-const shirtRegEx = new RegExp('P');
+
+
 // make color menu show on change with correct options
 $('#design').on('change', function() {
+    const shirtRegEx = new RegExp('P');
+    let optNotSelected = '';
+    let optSelected = '';
     $('#design option').eq(0).hide();
     $('#colors-js-puns p').hide();
     $('#color').show();
 
+    function optSelection() {
+        $('#color option').eq(optNotSelected).attr('selected', false);
+        $('#color option').eq(optSelected).attr('selected', true);
+    }
+
     if ($(this).val() == 'js puns') {
-        let optNotSelected = '';
-        let optSelected = '';
         $('#color option').each(function(i, el) {
             if (shirtRegEx.test($(el).text())) {
                 $(el).show();
@@ -36,8 +42,7 @@ $('#design').on('change', function() {
                 optSelected = (i - i);
             }
         });
-        $('#color option').eq(optNotSelected).attr('selected', false);
-        $('#color option').eq(optSelected).attr('selected', true);
+        optSelection();
     } else if ($(this).val() == 'heart js') {
         $('#color option').each(function (i, el) {
             if (shirtRegEx.test($(el).text()) == false) {
@@ -48,8 +53,7 @@ $('#design').on('change', function() {
                 optSelected = (i + 1);
             }
         });
-        $('#color option').eq(optNotSelected).attr('selected', false);
-        $('#color option').eq(optSelected).attr('selected', true);
+        optSelection();
     }
 });
 
