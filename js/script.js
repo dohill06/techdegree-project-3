@@ -60,10 +60,45 @@ $('#design').on('change', function() {
 
 
 // register checkbox section
-$('.activities input').on('click', function() {
-    if ($(this).prop('checked')) {
-        console.log('check');
-    } else if ($(this).prop('checked') == false) {
-        console.log('unchecked');
-    }
+$('.activities input').on('change', function() {
+    const tuesMorningRegEx = /T\w+ \d+am-\d+pm/;
+    const tuesAfternoonRegEx = /T\w+ \d+pm-\d+pm/;
+    const $label = $('.activities label');   
+    const $checked = $(this);
+    const $checkedText = $checked.parent().text();
+
+    $label.each(function (i, el) {
+        let $labelText = $(el).text();
+        let $labelKids = $(el).children();
+
+        function checkState(reg, chk, color) {
+            if ($labelText.match(reg)) {
+
+                if ($labelKids.prop('checked') == false) {
+                    $labelKids.attr('disabled', chk);
+                    $(el).css('color', color);
+
+                }
+            }
+        }
+
+        if ($checkedText.match(tuesMorningRegEx) && $checked.prop('checked')) {
+            checkState(tuesMorningRegEx, true, 'gray');
+ 
+            
+        } else if ($checkedText.match(tuesAfternoonRegEx) && $checked.prop('checked')) {
+            checkState(tuesAfternoonRegEx, true, 'gray');
+
+
+        } else if ($checkedText.match(tuesMorningRegEx) && $checked.prop('checked') == false) {
+            checkState(tuesMorningRegEx, false, '');
+
+
+         } else if ($checkedText.match(tuesAfternoonRegEx) && $checked.prop('checked') == false) {
+            checkState(tuesAfternoonRegEx, false, '');
+
+         }
+
+    });
+    
 });
