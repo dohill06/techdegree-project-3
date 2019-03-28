@@ -1,11 +1,21 @@
 // added focus to name input on load-in
 $('#name').focus();
+
 // hide other-title job role input on load-in
 $('#other-title').hide();
+
 // hide t-shirt 'Color' menu on load-in and add instructions
 $('#color').hide();
 $('#colors-js-puns label').append('<p>Please select a T-shirt theme.</p>');
 $('#colors-js-puns p').css('margin-top', '9px');
+
+// hide payment options on load-in
+const $creditCard = $('#credit-card')
+const $payPal = $creditCard.next();
+const $bitCoin = $creditCard.next().next();
+$payPal.hide();
+$bitCoin.hide();
+$('#payment option').eq(1).attr('selected', true);
 
 // show other-title job role input when other is selected
 $('#title').on('change', function() {
@@ -57,6 +67,7 @@ $('#design').on('change', function() {
         optSelection();
     }
 });
+
 
 // register total
 let total = 0;
@@ -122,3 +133,4 @@ $('.activities input').on('change', function() {
     });
     
 });
+
