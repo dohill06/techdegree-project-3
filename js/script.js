@@ -16,6 +16,7 @@ const $bitCoin = $creditCard.next().next();
 $payPal.hide();
 $bitCoin.hide();
 $('#payment option').eq(1).attr('selected', true);
+$('#payment option').eq(0).attr('disabled', true);
 
 // show other-title job role input when other is selected
 $('#title').on('change', function() {
@@ -134,3 +135,20 @@ $('.activities input').on('change', function() {
     
 });
 
+
+// payment info section
+$('#payment').on('change', function(){
+    if ($(this).val() == 'credit card') {
+        $creditCard.show();
+        $payPal.hide();
+        $bitCoin.hide();
+    } else if ($(this).val() == 'paypal') {
+        $payPal.show();
+        $creditCard.hide();
+        $bitCoin.hide();
+    } else if ($(this).val() == 'bitcoin') {
+        $bitCoin.show();
+        $creditCard.hide();
+        $payPal.hide();
+    }
+});
