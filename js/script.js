@@ -58,6 +58,11 @@ $('#design').on('change', function() {
     }
 });
 
+// register total
+let total = 0;
+const $sum = $(`<p>Total: $${total}</p>`);
+$('.activities').append($sum);
+$($sum).hide();
 
 // register checkbox section
 $('.activities input').on('change', function() {
@@ -66,6 +71,20 @@ $('.activities input').on('change', function() {
     const $label = $('.activities label');   
     const $checked = $(this);
     const $checkedText = $checked.parent().text();
+
+    $($sum).show();
+   
+    if ($checkedText.match('Main') && $checked.prop('checked')) {
+        total += 200;
+    } else if ($checkedText.match('Main') && $checked.prop('checked') == false) {
+        total -= 200;
+    } else if ($checked.prop('checked')) {
+        total += 100;
+    } else if ($checked.prop('checked') == false) {
+        total -= 100;
+    }
+    
+    $sum.html(`<p>Total: $${total}</p>`);
 
     $label.each(function (i, el) {
         let $labelText = $(el).text();
@@ -84,19 +103,20 @@ $('.activities input').on('change', function() {
 
         if ($checkedText.match(tuesMorningRegEx) && $checked.prop('checked')) {
             checkState(tuesMorningRegEx, true, 'gray');
- 
-            
+             
         } else if ($checkedText.match(tuesAfternoonRegEx) && $checked.prop('checked')) {
             checkState(tuesAfternoonRegEx, true, 'gray');
-
 
         } else if ($checkedText.match(tuesMorningRegEx) && $checked.prop('checked') == false) {
             checkState(tuesMorningRegEx, false, '');
 
-
          } else if ($checkedText.match(tuesAfternoonRegEx) && $checked.prop('checked') == false) {
             checkState(tuesAfternoonRegEx, false, '');
 
+         }
+         
+         if ($('input:checked').length == 0) {
+             $($sum).hide();
          }
 
     });
