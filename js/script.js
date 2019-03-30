@@ -176,57 +176,141 @@ function regExTest(reg, text) {
 function errorMessage() {
 
 }
-const span = $('<span> That is not a valid Email address</span>').css('color', 'red');
-$emailInput.prev().append($(span));
-$(span).hide();
+
+const $nameSpan = $('<span> Please enter a name</span>').css('color', 'red');
+$('#name').prev().append($($nameSpan));
+$($nameSpan).hide();
+
+const $emailSpan = $('<span> Not a valid Email address</span>').css('color', 'red');
+$emailInput.prev().append($($emailSpan));
+$($emailSpan).hide();
+
+const $chkbxSpan = $('<span> Please choose activities</span>').css('color', 'red');
+$('.activities legend').append($($chkbxSpan));
+$($chkbxSpan).hide();
+
+const $ccInputSpan = $('<span> Enter card number</span>').css('color', 'red');
+$creditInput.prev().append($($ccInputSpan));
+$($ccInputSpan).hide();
+
+const $ccZipSpan = $('<span> Enter Zip</span>').css('color', 'red');
+$creditZipInput.prev().append($($ccZipSpan));
+$($ccZipSpan).hide();
+
+const $ccCvvSpan = $('<span> Enter code</span>').css('color', 'red');
+$creditCvvInput.prev().append($($ccCvvSpan));
+$($ccCvvSpan).hide();
 
 // submit button
 $('form').on('submit', function(e) {
     if ($('#name').val().length == 0) {
-        console.log('c1')
+        $('#name').css('border-color', 'red');
+        $($nameSpan).show();
         e.preventDefault();
-    } 
+     }
     
     if (regExTest(emailRegEx, $emailInput) == false) {
-        console.log('c2')
+        $emailInput.css('border-color', 'red');
+        $($emailSpan).text(' Please enter a valid Email address');
+        $($emailSpan).show();
         e.preventDefault();
     }
 
     if ($('input:checked').length == 0) {
-        console.log('c3')
+        $($chkbxSpan).show();
         e.preventDefault();
     }
 
     if ($('#payment').val() == 'credit card') {
-        console.log('cc4');
+
         if (regExTest(creditNumRegEx, $creditInput) == false) {
-            console.log('cc5');
+            $creditInput.css('border-color', 'red');
+            $($ccInputSpan).show();
             e.preventDefault();
         }
         if (regExTest(creditZipRegEx, $creditZipInput) == false) {
-            console.log('cc6');
+            $creditZipInput.css('border-color', 'red');
+            $($ccZipSpan).show();
             e.preventDefault();
         }
         if (regExTest(creditCvvRegEx, $creditCvvInput) == false) {
-            console.log('cc7');
+            $creditCvvInput.css('border-color', 'red');
+            $($ccCvvSpan).show();
             e.preventDefault();
         }
     }
 });
 
 
-// real-time mail input!
-$emailInput.on('input', function () {
-    if (regExTest(emailRegEx, $emailInput)) {
-        $(span).hide();
-        console.log('yes');
-    } else if ($emailInput.val() == 0) {
-        $(span).hide();
-        console.log('fuck');
-    } else {
-        $(span).show();
-        
-        console.log('no');
+$('#name').on('input', function() {
+    if ($('#name').val().length > 0) {
+        $('#name').css('border-color', '');
+        $($nameSpan).hide();
     }
-        
+});
+
+
+// real-time mail input
+$emailInput.on('input', function() {
+    if (regExTest(emailRegEx, $emailInput)) {
+        $emailInput.css('border-color', '');
+        $($emailSpan).hide();
+    } else if ($emailInput.val() == 0) {
+        $emailInput.css('border-color', '');
+        $($emailSpan).hide();
+    } else {
+        $emailInput.attr('type', 'text');
+        $emailInput.css('border-color', 'red');
+        $($emailSpan).text(' Not a valid Email address');
+        $($emailSpan).show();
+    }
+});
+
+
+$('.activities').on('input', function() {
+    if ($('input:checked').length > 0) {
+        $($chkbxSpan).hide();
+    }
+});
+
+
+$($creditInput).on('input', function () {
+    if (regExTest(creditNumRegEx, $creditInput)) {
+        $creditInput.css('border-color', '');
+        $($ccInputSpan).hide();
+    } else if ($creditInput.val() == 0) {
+        $creditInput.css('border-color', '');
+        $($ccInputSpan).hide();
+    } else {
+        $creditInput.css('border-color', 'red');
+        $($ccInputSpan).show();
+    }
+});
+
+
+$($creditZipInput).on('input', function () {
+    if (regExTest(creditZipRegEx, $creditZipInput)) {
+        $creditZipInput.css('border-color', '');
+        $($ccZipSpan).hide();
+    } else if ($creditZipInput.val() == 0) {
+        $creditZipInput.css('border-color', '');
+        $($ccZipSpan).hide();
+    } else {
+        $creditZipInput.css('border-color', 'red');
+        $($ccZipSpan).show();
+    }
+});
+
+
+$($creditCvvInput).on('input', function () {
+    if (regExTest(creditCvvRegEx, $creditCvvInput)) {
+        $creditCvvInput.css('border-color', '');
+        $($ccCvvSpan).hide();
+    } else if ($creditCvvInput.val() == 0) {
+        $creditCvvInput.css('border-color', '');
+        $($ccCvvSpan).hide();
+    } else {
+        $creditCvvInput.css('border-color', 'red');
+        $($ccCvvSpan).show();
+    }
 });
