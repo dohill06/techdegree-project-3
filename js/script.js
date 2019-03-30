@@ -157,6 +157,7 @@ $('#payment').on('change', function(){
 
 const $emailInput = $('#mail');
 const emailRegEx = /^[^@]+@[^@.]+\.[a-z]{2,}$/i;
+$emailInput.attr('type', 'text');
 
 const $creditInput = $('#cc-num');
 const creditNumRegEx = /^\d{13,16}$/;
@@ -167,52 +168,53 @@ const creditZipRegEx = /^\d{5}$/;
 const $creditCvvInput = $('#cvv');
 const creditCvvRegEx = /^\d{3}$/;
 
-
-function regExTest(reg, text) {
-    return reg.test(text.val());
-}
-
-
-function errorMessage() {
-
-}
-
-const $nameSpan = $('<span> Please enter a name</span>').css('color', 'red');
-$('#name').prev().append($($nameSpan));
-$($nameSpan).hide();
-
-const $emailSpan = $('<span> Not a valid Email address</span>').css('color', 'red');
-$emailInput.prev().append($($emailSpan));
-$($emailSpan).hide();
+const $nameSpan = $('<span> Please enter a name</span>');
+const $emailSpan = $('<span> Not a valid Email address</span>');
 
 const $chkbxSpan = $('<span> Please choose activities</span>').css('color', 'red');
 $('.activities legend').append($($chkbxSpan));
 $($chkbxSpan).hide();
 
-const $ccInputSpan = $('<span> Enter card number</span>').css('color', 'red');
-$creditInput.prev().append($($ccInputSpan));
-$($ccInputSpan).hide();
+const $ccInputSpan = $('<span> Enter card number</span>')
+const $ccZipSpan = $('<span> Enter Zip</span>')
+const $ccCvvSpan = $('<span> Enter code</span>')
 
-const $ccZipSpan = $('<span> Enter Zip</span>').css('color', 'red');
-$creditZipInput.prev().append($($ccZipSpan));
-$($ccZipSpan).hide();
+errorMessage($nameSpan, $('#name'));
+errorMessage($emailSpan, $emailInput);
+errorMessage($ccInputSpan, $creditInput);
+errorMessage($ccZipSpan, $creditZipInput);
+errorMessage($ccCvvSpan, $creditCvvInput);
 
-const $ccCvvSpan = $('<span> Enter code</span>').css('color', 'red');
-$creditCvvInput.prev().append($($ccCvvSpan));
-$($ccCvvSpan).hide();
+function regExTest(reg, text) {
+    return reg.test(text.val());
+}
+
+function errorMessage(span, name) {
+    $(span).css('color', 'red');
+    name.prev().append($(span));
+    $(span).hide();
+}
+
+function showError(name, span) {
+    name.css('border-color', 'red');
+    $(span).show();
+}
+
+function hideError(name, span) {
+    name.css('border-color', '');
+    $(span).hide();
+}
 
 // submit button
 $('form').on('submit', function(e) {
     if ($('#name').val().length == 0) {
-        $('#name').css('border-color', 'red');
-        $($nameSpan).show();
+        showError($('#name'), $nameSpan);
         e.preventDefault();
      }
     
     if (regExTest(emailRegEx, $emailInput) == false) {
-        $emailInput.css('border-color', 'red');
+        showError($emailInput, $emailSpan);
         $($emailSpan).text(' Please enter a valid Email address');
-        $($emailSpan).show();
         e.preventDefault();
     }
 
@@ -224,18 +226,15 @@ $('form').on('submit', function(e) {
     if ($('#payment').val() == 'credit card') {
 
         if (regExTest(creditNumRegEx, $creditInput) == false) {
-            $creditInput.css('border-color', 'red');
-            $($ccInputSpan).show();
+            showError($creditInput, $ccInputSpan);
             e.preventDefault();
         }
         if (regExTest(creditZipRegEx, $creditZipInput) == false) {
-            $creditZipInput.css('border-color', 'red');
-            $($ccZipSpan).show();
+            showError($creditZipInput, $ccZipSpan);
             e.preventDefault();
         }
         if (regExTest(creditCvvRegEx, $creditCvvInput) == false) {
-            $creditCvvInput.css('border-color', 'red');
-            $($ccCvvSpan).show();
+            showError($creditCvvInput, $ccCvvSpan);
             e.preventDefault();
         }
     }
@@ -244,8 +243,7 @@ $('form').on('submit', function(e) {
 
 $('#name').on('input', function() {
     if ($('#name').val().length > 0) {
-        $('#name').css('border-color', '');
-        $($nameSpan).hide();
+        hideError($('#name'), $nameSpan);
     }
 });
 
@@ -253,16 +251,12 @@ $('#name').on('input', function() {
 // real-time mail input
 $emailInput.on('input', function() {
     if (regExTest(emailRegEx, $emailInput)) {
-        $emailInput.css('border-color', '');
-        $($emailSpan).hide();
+        hideError($emailInput, $emailSpan);
     } else if ($emailInput.val() == 0) {
-        $emailInput.css('border-color', '');
-        $($emailSpan).hide();
+        hideError($emailInput, $emailSpan);
     } else {
-        $emailInput.attr('type', 'text');
-        $emailInput.css('border-color', 'red');
         $($emailSpan).text(' Not a valid Email address');
-        $($emailSpan).show();
+        showError($emailInput, $emailSpan);
     }
 });
 
@@ -276,41 +270,32 @@ $('.activities').on('input', function() {
 
 $($creditInput).on('input', function () {
     if (regExTest(creditNumRegEx, $creditInput)) {
-        $creditInput.css('border-color', '');
-        $($ccInputSpan).hide();
+        hideError($creditInput, $ccInputSpan);
     } else if ($creditInput.val() == 0) {
-        $creditInput.css('border-color', '');
-        $($ccInputSpan).hide();
+        hideError($creditInput, $ccInputSpan);
     } else {
-        $creditInput.css('border-color', 'red');
-        $($ccInputSpan).show();
+        showError($creditInput, $ccInputSpan);
     }
 });
 
 
 $($creditZipInput).on('input', function () {
     if (regExTest(creditZipRegEx, $creditZipInput)) {
-        $creditZipInput.css('border-color', '');
-        $($ccZipSpan).hide();
+        hideError($creditZipInput, $ccZipSpan);
     } else if ($creditZipInput.val() == 0) {
-        $creditZipInput.css('border-color', '');
-        $($ccZipSpan).hide();
+        hideError($creditZipInput, $ccZipSpan);
     } else {
-        $creditZipInput.css('border-color', 'red');
-        $($ccZipSpan).show();
+        showError($creditZipInput, $ccZipSpan);
     }
 });
 
 
 $($creditCvvInput).on('input', function () {
     if (regExTest(creditCvvRegEx, $creditCvvInput)) {
-        $creditCvvInput.css('border-color', '');
-        $($ccCvvSpan).hide();
+        hideError($creditCvvInput, $ccCvvSpan);
     } else if ($creditCvvInput.val() == 0) {
-        $creditCvvInput.css('border-color', '');
-        $($ccCvvSpan).hide();
+        hideError($creditCvvInput, $ccCvvSpan);
     } else {
-        $creditCvvInput.css('border-color', 'red');
-        $($ccCvvSpan).show();
+        showError($creditCvvInput, $ccCvvSpan);
     }
 });
