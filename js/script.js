@@ -155,6 +155,7 @@ $('#payment').on('change', function(){
 });
 
 
+// form validation section
 const $emailInput = $('#mail');
 const emailRegEx = /^[^@]+@[^@.]+\.[a-z]{2,}$/i;
 $emailInput.attr('type', 'text');
@@ -205,7 +206,7 @@ function hideError(name, span) {
     $(span).hide();
 }
 
-// submit button
+// form validation on submit 
 $('form').on('submit', function(e) {
     if ($('#name').val().length == 0) {
         showError($('#name'), $nameSpan);
@@ -241,6 +242,7 @@ $('form').on('submit', function(e) {
 });
 
 
+// real-time name input
 $('#name').on('input', function() {
     if ($('#name').val().length > 0) {
         hideError($('#name'), $nameSpan);
@@ -261,6 +263,7 @@ $emailInput.on('input', function() {
 });
 
 
+// real-time checkbox input
 $('.activities').on('input', function() {
     if ($('input:checked').length > 0) {
         $($chkbxSpan).hide();
@@ -268,6 +271,7 @@ $('.activities').on('input', function() {
 });
 
 
+// real-time credit card number input
 $($creditInput).on('input', function () {
     if (regExTest(creditNumRegEx, $creditInput)) {
         hideError($creditInput, $ccInputSpan);
@@ -279,6 +283,7 @@ $($creditInput).on('input', function () {
 });
 
 
+// real-time zip code input
 $($creditZipInput).on('input', function () {
     if (regExTest(creditZipRegEx, $creditZipInput)) {
         hideError($creditZipInput, $ccZipSpan);
@@ -290,6 +295,7 @@ $($creditZipInput).on('input', function () {
 });
 
 
+// real-time cvv code input
 $($creditCvvInput).on('input', function () {
     if (regExTest(creditCvvRegEx, $creditCvvInput)) {
         hideError($creditCvvInput, $ccCvvSpan);
